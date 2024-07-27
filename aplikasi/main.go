@@ -46,11 +46,16 @@ func main() {
 		fmt.Println("4. Rekap Penjualan")
 		fmt.Println("5. Exit")
 		fmt.Print("Pilih opsi: ")
-
-		var choice int
-		fmt.Scanln(&choice)
-
 		reader := bufio.NewReader(os.Stdin)
+
+		choiceInp, _ := reader.ReadString('\n')
+		choiceInp = strings.TrimSpace(choiceInp)
+		choice, err := strconv.Atoi(choiceInp)
+		if err != nil {
+			fmt.Println("Invalid choice input:", err)
+		}
+
+		
 		switch choice {
 		case 1:
 			//addProduct(db)
@@ -64,7 +69,7 @@ func main() {
 			price, err := strconv.ParseFloat(priceInput, 64)
 			if err != nil {
 				fmt.Println("Invalid price input:", err)
-				return
+				continue
 			}
 
 			fmt.Print("Enter product stock: ")
@@ -73,7 +78,7 @@ func main() {
 			stock, err := strconv.Atoi(stockInput)
 			if err != nil {
 				fmt.Println("Invalid stock input:", err)
-				return
+				continue
 			}
 			fitur.AddProduct(db, productName, price, stock)
 		case 2:
@@ -96,7 +101,7 @@ func main() {
 			stock, err := strconv.Atoi(stockInput)
 			if err != nil {
 				fmt.Println("Invalid stock input:", err)
-				return
+				continue
 			}
 			fitur.UpdateProductStock(db, productName, stock, addStock)
 		case 3:
