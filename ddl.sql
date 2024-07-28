@@ -1,4 +1,4 @@
-CREATE DATABASE SimPair;
+CREATE DATABASE simpair;
 
 -- Create table for products
 CREATE TABLE products (

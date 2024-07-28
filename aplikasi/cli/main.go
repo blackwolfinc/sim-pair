@@ -4,35 +4,23 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"os"
+
+	"aplikasi/config"
+	"aplikasi/entity"
+	"aplikasi/handler"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	// Load environment variables from .env file
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
-	}
+	cfg := config.LoadConfig()
 
-	// Get database connection info from environment variables
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbUser := os.Getenv("DB_USER")
-	dbPassword := os.Getenv("DB_PASSWORD")
-	dbName := os.Getenv("DB_NAME")
-
-	// Set up database connection
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUser, dbPassword, dbHost, dbPort, dbName)
-	db, err := sql.Open("mysql", dsn)
+	db, err := sql.Open("mysql", cfg.DSN())
 	if err != nil {
 		log.Fatalf("Failed to connect to the database: %v", err)
 	}
 	defer db.Close()
 
-	// Check the connection
 	err = db.Ping()
 	if err != nil {
 		log.Fatalf("Failed to ping the database: %v", err)
@@ -41,7 +29,6 @@ func main() {
 	fmt.Println("Successfully connected to the database!")
 
 	for {
-		// Display the menu
 		fmt.Println("\nMenu:")
 		fmt.Println("1. Tambah Produk")
 		fmt.Println("2. Ubah Stok Produk")
@@ -59,7 +46,7 @@ func main() {
 		case 2:
 			//updateProductStock(db)
 		case 3:
-			//addStaff(db)
+			addStaff(db)
 		case 4:
 			//reportSales(db)
 		case 5:
@@ -69,4 +56,18 @@ func main() {
 			fmt.Println("Opsi tidak valid!")
 		}
 	}
+}
+
+func addStaff(db *sql.DB) {
+	var name, email, position string
+
+	fmt.Print("Nama Staff: ")
+	fmt.Scan(&name)
+	fmt.Print("Email: ")
+	fmt.Scan(&email)
+	fmt.Print("Posisi: ")
+	fmt.Scan(&position)
+
+	staff := entity.Staff{Name: name, Email: email, Position: position}
+	handler.AddStaff(db, staff)
 }
