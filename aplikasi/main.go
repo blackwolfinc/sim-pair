@@ -8,15 +8,15 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
 	"strconv"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 )
 
 func main() {
-	// Load environment variables from .env file
+	// Load environment variables from .env fileß
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
@@ -55,7 +55,6 @@ func main() {
 			fmt.Println("Invalid choice input:", err)
 		}
 
-		
 		switch choice {
 		case 1:
 			//addProduct(db)
