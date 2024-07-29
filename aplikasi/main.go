@@ -2,7 +2,8 @@ package main
 
 import (
 	"aplikasi/config"
-	"aplikasi/fitur"
+	"aplikasi/entity"
+	"aplikasi/handler"
 	"bufio"
 	"database/sql"
 	"fmt"
@@ -13,24 +14,17 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	// Load environment variables from .env fileß
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
-	}
+	cfg := config.LoadConfig()
 
-	// Set up database connection
-	db, err := sql.Open("mysql", config.DatabaseConfig())
+	db, err := sql.Open("mysql", cfg.DSN())
 	if err != nil {
 		log.Fatalf("Failed to connect to the database: %v", err)
 	}
 	defer db.Close()
 
-	// Check the connection
 	err = db.Ping()
 	if err != nil {
 		log.Fatalf("Failed to ping the database: %v", err)
@@ -39,7 +33,6 @@ func main() {
 	fmt.Println("Successfully connected to the database!")
 
 	for {
-		// Display the menu
 		fmt.Println("\nMenu:")
 		fmt.Println("1. Tambah Produk")
 		fmt.Println("2. Ubah Stok Produk")
@@ -80,7 +73,7 @@ func main() {
 				fmt.Println("Invalid stock input:", err)
 				continue
 			}
-			fitur.AddProduct(db, productName, price, stock)
+			handler.AddProduct(db, productName, price, stock)
 		case 2:
 			//updateProductStock(db)
 			fmt.Print("Enter the product name you want to update: ")
@@ -105,9 +98,19 @@ func main() {
 				fmt.Println("=======================================================================================")
 				continue
 			}
-			fitur.UpdateProductStock(db, productName, stock, addStock)
+			handler.UpdateProductStock(db, productName, stock, addStock)
 		case 3:
-			//addStaff(db)
+			var name, email, position string
+
+			fmt.Print("Nama Staff: ")
+			fmt.Scan(&name)
+			fmt.Print("Email: ")
+			fmt.Scan(&email)
+			fmt.Print("Posisi: ")
+			fmt.Scan(&position)
+
+			staff := entity.Staff{Name: name, Email: email, Position: position}
+			handler.AddStaff(db, staff)
 		case 4:
 			var startDate, endDate string
 
@@ -145,7 +148,7 @@ func main() {
 			}
 
 			// Call the SummarySales function
-			err = fitur.SummarySales(db, startDate, endDate)
+			err = handler.SummarySales(db, startDate, endDate)
 			if err != nil {
 				log.Fatal(err)
 			}

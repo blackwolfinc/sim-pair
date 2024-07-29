@@ -1,4 +1,4 @@
-package fitur
+package handler
 
 import (
 	"database/sql"

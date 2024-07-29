@@ -1,7 +1,8 @@
-package fitur
+package handler
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 )
 
@@ -11,5 +12,6 @@ func AddProduct(db *sql.DB, name string, price float64, stock int) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("Product added Successfully")
+	fmt.Println("=======================================================================================")
+	fmt.Println("Product added Successfully")
 }
