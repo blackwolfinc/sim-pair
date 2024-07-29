@@ -1,14 +1,14 @@
-# SIMPAIR
+# Inventory Management System
 
-This is a simple CLI-based system built with Go, using MySQL as the database.
+This is a simple CLI-based inventory management system built with Go, using MySQL as the database.
 
 ## Features
 
-- Add Product: Allows users to add new products to the database.
-- Update Product Stock: Allows users to update the stock of existing products.
-- Add Staff: Allows users to add new staff members to the database.
-- Sales Report: Displays sales reports based on a specified date range.
-- Exit: Exits the application.
+- **Add Product:** Allows users to add new products to the database.
+- **Update Product Stock:** Allows users to update the stock of existing products.
+- **Add Staff:** Allows users to add new staff members to the database.
+- **Sales Report:** Displays sales reports based on a specified date range.
+- **Exit:** Exits the application.
 
 ## Installation
 
@@ -35,7 +35,7 @@ This is a simple CLI-based system built with Go, using MySQL as the database.
     DB_PORT=3306
     DB_USER=root
     DB_PASSWORD=
-    DB_NAME=simpair
+    DB_NAME=SimPair
     ```
 
     Replace the placeholder values with your actual MySQL database credentials.
@@ -49,11 +49,96 @@ This is a simple CLI-based system built with Go, using MySQL as the database.
 
 4. **Set up the database:**
 
-    Create the database and tables using the provided DDL and DML statements.
+    Create the database and tables using the provided DDL statements in `ddl.sql`.
+
+    ```sql
+    -- Create table for products
+    CREATE TABLE products (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        price DECIMAL(10, 2) NOT NULL,
+        stock INT NOT NULL
+    );
+
+    -- Create table for staff
+    CREATE TABLE staff (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        position VARCHAR(255) NOT NULL
+    );
+
+    -- Create table for sales
+    CREATE TABLE sales (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        product_id INT NOT NULL,
+        quantity INT NOT NULL,
+        sale_date DATE NOT NULL,
+        FOREIGN KEY (product_id) REFERENCES products(id)
+    );
+    ```
 
 5. **Run the application:**
 
     ```sh
-    cd aplikasi\cli
     go run main.go
     ```
+
+## Database Schema
+
+### Products Table
+
+- `id` (auto-incremented): Primary key.
+- `name`: Product name.
+- `price`: Product price.
+- `stock`: Available stock.
+
+### Staff Table
+
+- `id` (auto-incremented): Primary key.
+- `name`: Staff name.
+- `email`: Staff email.
+- `position`: Staff position.
+
+### Sales Table
+
+- `id` (auto-incremented): Primary key.
+- `product_id`: Foreign key referencing `products(id)`.
+- `quantity`: Quantity sold.
+- `sale_date`: Date of sale.
+
+## Data Definition Language (DDL)
+
+```sql
+-- Create table for products
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    stock INT NOT NULL
+);
+
+-- Create table for staff
+CREATE TABLE staff (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    position VARCHAR(255) NOT NULL
+);
+
+-- Create table for sales
+CREATE TABLE sales (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    sale_date DATE NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+```
+
+## Pembagian Tugas
+Marcel: fitur 1 dan 2
+Kamal: fitur 3
+Bagas: fitur 4
+Untuk role, kami menjalankannya secara bergilir di mana semua orang melakukan semua role yang ada, dengan pengaplikasian metode pull request di github.
+Notes: Untuk yang lainnya kita kerjakan bersama
