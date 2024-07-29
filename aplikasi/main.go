@@ -10,6 +10,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
@@ -99,19 +100,64 @@ func main() {
 			stockInput = strings.TrimSpace(stockInput)
 			stock, err := strconv.Atoi(stockInput)
 			if err != nil {
+				fmt.Println("=======================================================================================")
 				fmt.Println("Invalid stock input:", err)
+				fmt.Println("=======================================================================================")
 				continue
 			}
 			fitur.UpdateProductStock(db, productName, stock, addStock)
 		case 3:
 			//addStaff(db)
 		case 4:
-			//reportSales(db)
+			var startDate, endDate string
+
+			for {
+
+				fmt.Print("Enter Start Date - (yyyy/mm/dd) : ")
+				startDate, _ = reader.ReadString('\n')
+				startDate = strings.TrimSpace(startDate)
+
+				// Validate start date
+				_, err := time.Parse("2006/01/02", startDate)
+				if err != nil {
+					fmt.Println("=======================================================================================")
+					fmt.Println("Invalid start date format. Please use yyyy/mm/dd.")
+					fmt.Println("=======================================================================================")
+					continue
+				}
+				break
+			}
+
+			for {
+				fmt.Print("Enter End Date - (yyyy/mm/dd) : ")
+				endDate, _ = reader.ReadString('\n')
+				endDate = strings.TrimSpace(endDate)
+
+				// Validate end date
+				_, err := time.Parse("2006/01/02", endDate)
+				if err != nil {
+					fmt.Println("=======================================================================================")
+					fmt.Println("Invalid end date format. Please use yyyy/mm/dd.")
+					fmt.Println("=======================================================================================")
+					continue
+				}
+				break
+			}
+
+			// Call the SummarySales function
+			err = fitur.SummarySales(db, startDate, endDate)
+			if err != nil {
+				log.Fatal(err)
+			}
 		case 5:
+			fmt.Println("=======================================================================================")
 			fmt.Println("Keluar dari aplikasi...")
+			fmt.Println("=======================================================================================")
 			return
 		default:
+			fmt.Println("=======================================================================================")
 			fmt.Println("Opsi tidak valid!")
+			fmt.Println("=======================================================================================")
 		}
 	}
 }
