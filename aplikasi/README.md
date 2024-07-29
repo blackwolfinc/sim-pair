@@ -140,7 +140,5 @@ CREATE TABLE sales (
 - Marcel: fitur 1 dan 2
 - Kamal: fitur 3
 - Bagas: fitur 4
-```
-Untuk role, kami menjalankannya secara bergilir di mana semua orang melakukan semua role yang ada, dengan pengaplikasian metode pull request di github.
-Notes: Untuk yang lainnya kita kerjakan bersama
-```
+- Untuk role, kami menjalankannya secara bergilir di mana semua orang melakukan semua role yang ada, dengan pengaplikasian metode pull request di github.
+- Notes: Untuk yang lainnya kita kerjakan bersama
