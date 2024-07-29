@@ -19,11 +19,11 @@ type Config struct {
 func LoadConfig() *Config {
 
 	// Debug: Print environment variables
-	fmt.Println("DB_HOST:", os.Getenv("DB_HOST"))
-	fmt.Println("DB_PORT:", os.Getenv("DB_PORT"))
-	fmt.Println("DB_USER:", os.Getenv("DB_USER"))
-	fmt.Println("DB_PASSWORD:", os.Getenv("DB_PASSWORD"))
-	fmt.Println("DB_NAME:", os.Getenv("DB_NAME"))
+	// fmt.Println("DB_HOST:", os.Getenv("DB_HOST"))
+	// fmt.Println("DB_PORT:", os.Getenv("DB_PORT"))
+	// fmt.Println("DB_USER:", os.Getenv("DB_USER"))
+	// fmt.Println("DB_PASSWORD:", os.Getenv("DB_PASSWORD"))
+	// fmt.Println("DB_NAME:", os.Getenv("DB_NAME"))
 
 	err := godotenv.Load()
 	if err != nil {

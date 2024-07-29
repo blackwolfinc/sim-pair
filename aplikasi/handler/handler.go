@@ -14,5 +14,6 @@ func AddStaff(db *sql.DB, staff entity.Staff) {
 	if err != nil {
 		log.Fatalf("Failed to insert staff: %v", err)
 	}
+	fmt.Println("=======================================================================================")
 	fmt.Println("Staff berhasil ditambahkan!")
 }

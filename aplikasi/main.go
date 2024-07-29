@@ -2,13 +2,12 @@ package main
 
 import (
 	"aplikasi/config"
+	"aplikasi/entity"
+	"aplikasi/handler"
 	"bufio"
 	"database/sql"
 	"fmt"
 	"log"
-
-	"aplikasi/entity"
-	"aplikasi/handler"
 	"os"
 	"strconv"
 	"strings"
@@ -101,7 +100,17 @@ func main() {
 			}
 			handler.UpdateProductStock(db, productName, stock, addStock)
 		case 3:
-			addStaff(db)
+			var name, email, position string
+
+			fmt.Print("Nama Staff: ")
+			fmt.Scan(&name)
+			fmt.Print("Email: ")
+			fmt.Scan(&email)
+			fmt.Print("Posisi: ")
+			fmt.Scan(&position)
+
+			staff := entity.Staff{Name: name, Email: email, Position: position}
+			handler.AddStaff(db, staff)
 		case 4:
 			var startDate, endDate string
 
@@ -154,18 +163,4 @@ func main() {
 			fmt.Println("=======================================================================================")
 		}
 	}
-}
-
-func addStaff(db *sql.DB) {
-	var name, email, position string
-
-	fmt.Print("Nama Staff: ")
-	fmt.Scan(&name)
-	fmt.Print("Email: ")
-	fmt.Scan(&email)
-	fmt.Print("Posisi: ")
-	fmt.Scan(&position)
-
-	staff := entity.Staff{Name: name, Email: email, Position: position}
-	handler.AddStaff(db, staff)
 }
